@@ -68,7 +68,7 @@ public class LoanSearchController {
 
 		if (loanData.isPresent() && amount.isPresent()) {
 
-			loanData = Optional.ofNullable(loanData.get().stream().filter(obj -> obj.getLoanAmount() == amount.get()).collect(Collectors.toList()));
+			loanData = Optional.ofNullable(loanData.get().stream().filter(obj -> (double)obj.getLoanAmount() == (double)amount.get()).collect(Collectors.toList()));
 
 		}
 

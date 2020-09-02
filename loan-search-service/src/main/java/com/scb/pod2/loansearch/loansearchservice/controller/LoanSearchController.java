@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PathVariable;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.scb.pod2.loansearch.loansearchservice.model.LoanManagement;
@@ -35,7 +35,7 @@ public class LoanSearchController {
 
 	private LoanSearchService service;
 
-	@GetMapping("/loanmanagement/data")
+	@GetMapping("/loan/data")
 
 	public List<LoanManagement> retrieveAllLoanData() {
 
@@ -45,7 +45,39 @@ public class LoanSearchController {
 
 	}
 
-	@GetMapping("/data/number/{number}")
+	
+	@GetMapping("/loandata/filter")
+
+	public List<LoanManagement> filterLoanData(@RequestParam Optional<Long> number, @RequestParam Optional<String> borrower,
+
+			@RequestParam Optional<Double >amount) {
+
+		Optional<List<LoanManagement>> loanData = Optional.ofNullable(service.retriveAllLoanMangement());
+
+		if (loanData.isPresent() && number.isPresent()) {
+
+			loanData = Optional.ofNullable(loanData.get().stream().filter(obj -> (long)obj.getLoanNumber() ==(long) number.get()).collect(Collectors.toList()));
+
+		}
+
+		if (loanData.isPresent() && borrower.isPresent()) {
+
+			loanData = Optional.ofNullable(loanData.get().stream().filter(obj -> obj.getBorrowerName().equalsIgnoreCase(borrower.get())).collect(Collectors.toList()));
+
+		}
+
+		if (loanData.isPresent() && amount.isPresent()) {
+
+			loanData = Optional.ofNullable(loanData.get().stream().filter(obj -> obj.getLoanAmount() == amount.get()).collect(Collectors.toList()));
+
+		}
+
+		return loanData.isPresent() ? loanData.get() : null;
+
+	}
+
+
+	@GetMapping("loan/data/number/{number}")
 
 	public LoanManagement searchLoanDataByID(@PathVariable Long number) {
 
@@ -53,7 +85,8 @@ public class LoanSearchController {
 
 	}
 
-	@GetMapping("/data/amount/{amount}")
+	
+	@GetMapping("loan/data/amount/{amount}")
 
 	public List<LoanManagement> searchLoanDataByAmount(@PathVariable double amount) {
 
@@ -61,7 +94,7 @@ public class LoanSearchController {
 
 	}
 
-	@GetMapping("/data/name/{borrower}")
+	@GetMapping("loan/data/name/{borrower}")
 
 	public List<LoanManagement> searchLoanDataByBorrowerName(@PathVariable String borrower) {
 
@@ -69,7 +102,7 @@ public class LoanSearchController {
 
 	}
 
-	@GetMapping("data/loannumber/{loanNumber}/borrower/{borrower}")
+	@GetMapping("loan/data/number/{loanNumber}/borrower/{borrower}")
 
 	public List<LoanManagement> searchLoanDataByNumberAndBorrowerName(@PathVariable long loanNumber,
 
@@ -79,7 +112,7 @@ public class LoanSearchController {
 
 	}
 
-	@GetMapping("/data/loannumber/{loanNumber}/amount/{amount}")
+	@GetMapping("loan/data/number/{loanNumber}/amount/{amount}")
 
 	public List<LoanManagement> searchLoanDataByNumberAndAmount(@PathVariable long loanNumber,
 
@@ -89,7 +122,7 @@ public class LoanSearchController {
 
 	}
 
-	@GetMapping("/data/borrower/{borrower}/amount/{amount}")
+	@GetMapping("loan/data/borrower/{borrower}/amount/{amount}")
 
 	public List<LoanManagement> searchByBorrowerNameAndAmount(String borrowerName, double amount) {
 
@@ -97,47 +130,11 @@ public class LoanSearchController {
 
 	}
 
-	@GetMapping("/data/number/{number}/borrowers/{borrower}/amount/{amount}")
+	@GetMapping("loan/data/number/{number}/borrowers/{borrower}/amount/{amount}")
 
 	public List<LoanManagement> searchLoanData(long number, String borrower, double amount) {
 
 		return service.searchLoanData(number, borrower.toLowerCase(), amount);
-
-	}
-
-	@GetMapping("/loandata/number/{number}/brname/{borrower}/amount/{amount}")
-
-	public List<LoanManagement> searchLoanDataByFilter(@PathVariable long number, @PathVariable String borrower,
-
-			@PathVariable double amount) {
-
-		Optional<List<LoanManagement>> loanData = Optional.ofNullable(service.retriveAllLoanMangement());
-
-		if (loanData.isPresent() && number > 0) {
-
-			loanData = Optional.ofNullable(
-
-					loanData.get().stream().filter(obj -> obj.getLoanNumber() == number).collect(Collectors.toList()));
-
-		}
-
-		if (loanData.isPresent() && borrower.trim().length() > 0) {
-
-			loanData = Optional.ofNullable(loanData.get().stream()
-
-					.filter(obj -> obj.getBorrowerName().equalsIgnoreCase(borrower)).collect(Collectors.toList()));
-
-		}
-
-		if (loanData.isPresent() && amount > 0) {
-
-			loanData = Optional.ofNullable(
-
-					loanData.get().stream().filter(obj -> obj.getLoanAmount() == amount).collect(Collectors.toList()));
-
-		}
-
-		return loanData.isPresent() ? loanData.get() : null;
 
 	}
 

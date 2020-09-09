@@ -20,7 +20,6 @@ public class LoanManagementResponseEntityExceptionHandler extends ResponseEntity
 	private static final Logger LOGGER = LoggerFactory.getLogger(LoanManagementResponseEntityExceptionHandler.class);
 
 	@ExceptionHandler(Exception.class)
-
 	public final ResponseEntity<Object> handleAllException(Exception ex, WebRequest request) throws Exception {
 
 		ExceptionResponse exceptionResonse = new ExceptionResponse(new Date(), ex.getMessage(),
@@ -33,12 +32,11 @@ public class LoanManagementResponseEntityExceptionHandler extends ResponseEntity
 	}
 
 	@ExceptionHandler(LoanManagementDataNotFound.class)
-
 	public final ResponseEntity<Object> handleEnrollmentNotFoundException(Exception ex, WebRequest request)
 			throws Exception {
 
 		ExceptionResponse exceptionResonse = new ExceptionResponse(new Date(), ex.getMessage(),
-				"error exception  response :Resource Not Found ");
+				"Error Exception Response : No Search Results found for requested parameter");
 
 		LOGGER.error("bodyOfResponse", ex);
 
@@ -47,7 +45,6 @@ public class LoanManagementResponseEntityExceptionHandler extends ResponseEntity
 	}
 
 	@ExceptionHandler({ IllegalArgumentException.class })
-
 	public ResponseEntity<Object> handle(IllegalArgumentException e, final WebRequest request) {
 
 		LOGGER.error("bodyOfResponse", e);
@@ -55,25 +52,4 @@ public class LoanManagementResponseEntityExceptionHandler extends ResponseEntity
 		return handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 
 	}
-
-	/*
-	 * @ExceptionHandler({ NullPointerException.class, IllegalStateException.class
-	 * })
-	 * 
-	 * public ResponseEntity<Object> handleInternal(final RuntimeException ex, final
-	 * WebRequest request) {
-	 * 
-	 * 
-	 * 
-	 * LOGGER.error("bodyOfResponse", ex);
-	 * 
-	 * return handleExceptionInternal(ex, ex.getMessage(), new HttpHeaders(),
-	 * HttpStatus.INTERNAL_SERVER_ERROR,
-	 * 
-	 * request);
-	 * 
-	 * }
-	 * 
-	 */
-
 }

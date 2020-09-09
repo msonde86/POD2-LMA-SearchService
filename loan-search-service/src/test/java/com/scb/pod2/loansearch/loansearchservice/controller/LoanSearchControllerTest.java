@@ -196,5 +196,21 @@ public class LoanSearchControllerTest {
 				.andReturn();
 
 	}
+	@Test
+	public void filterLoanData_NoDataFound() throws Exception {
 
+		when(loanSearchService.retriveAllLoanMangement())
+		.thenReturn(expectListFilter);
+		RequestBuilder request = MockMvcRequestBuilders.get("/loandata/filter")
+				.param("amount","13000.0")
+				.param("borrower", "thejas g m")
+				.accept(MediaType.APPLICATION_JSON);
+		//MvcResult result = mockMvc.perform(request)
+		 mockMvc.perform(request)
+				.andExpect(status().isNotFound());
+				;
+
+	}
+
+	
 }

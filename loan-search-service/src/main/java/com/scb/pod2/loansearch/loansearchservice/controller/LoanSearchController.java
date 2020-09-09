@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.scb.pod2.loansearch.loansearchservice.exception.LoanManagementDataNotFound;
 import com.scb.pod2.loansearch.loansearchservice.model.LoanManagement;
 import com.scb.pod2.loansearch.loansearchservice.service.LoanSearchService;
 
@@ -71,7 +72,10 @@ public class LoanSearchController {
 						.collect(Collectors.toList()));
 		}
 
-		return loanData.isPresent() ? loanData.get() : null;
+		if(!loanData.isPresent() || loanData.get().isEmpty()) {
+			throw new LoanManagementDataNotFound("No Search Results");
+		}
+		return loanData.get() ;
 	}
 
 }

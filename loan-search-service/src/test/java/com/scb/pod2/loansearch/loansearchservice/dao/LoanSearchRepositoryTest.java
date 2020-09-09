@@ -15,12 +15,14 @@ import com.scb.pod2.loansearch.loansearchservice.model.LoanManagement;
 @RunWith(SpringRunner.class)
 @DataJpaTest
 public class LoanSearchRepositoryTest {
+
 	@Autowired
-	private LoanSearchRepository loanSearchRepository;
+private LoanSearchRepository loanSearchRepository;
+
 @Test
 public void testFindAll() {
 	List<LoanManagement> loanDataLst=loanSearchRepository.findAll();
-	assertEquals(4, loanDataLst.size());
+	assertEquals(6, loanDataLst.size());
 }
 
 

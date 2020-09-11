@@ -1,11 +1,14 @@
 package com.scb.pod2.loansearch.loansearchservice.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import java.util.Optional;
 
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -15,14 +18,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
 import com.scb.pod2.loansearch.loansearchservice.exception.LoanManagementDataNotFound;
 import com.scb.pod2.loansearch.loansearchservice.model.LoanManagement;
 import com.scb.pod2.loansearch.loansearchservice.service.LoanSearchService;
 
+
 @CrossOrigin
 @RestController
 public class LoanSearchController {
-
+	
+	private Logger logger = LoggerFactory.getLogger(LoanSearchController.class);
+	
 	@Autowired
 	private LoanSearchService service;
 
@@ -30,13 +37,14 @@ public class LoanSearchController {
 	 * retrieve all the loan data
 	 * 
 	 * @return List --returns list of loan data.
+	 * @throws Exception 
 	 */
 	@GetMapping("/loan/data")
+	@HystrixCommand(fallbackMethod = "retrieveAllLoanDataFallback")
 	public List<LoanManagement> retrieveAllLoanData() {
 
 		List<LoanManagement> userOptional = service.retriveAllLoanMangement();
 		return userOptional;
-
 	}
 
 	/**
@@ -52,6 +60,7 @@ public class LoanSearchController {
 	 */
 
 	@GetMapping("/loandata/filter")
+	@HystrixCommand(fallbackMethod = "filterLoanDataFallback")
 	public List<LoanManagement> filterLoanData(@RequestParam Optional<Long> number,
 								@RequestParam Optional<String> borrower,@RequestParam Optional<Double> amount) {
 
@@ -76,6 +85,29 @@ public class LoanSearchController {
 			throw new LoanManagementDataNotFound("No Search Results");
 		}
 		return loanData.get() ;
+	}
+	
+	public List<LoanManagement> retrieveAllLoanDataFallback(){
+		logger.error("Fallback method executed for retrieveAllLoanData method");
+		List<LoanManagement> loanData = new ArrayList<>();
+		LoanManagement loanMgmt = new LoanManagement();
+		loanMgmt.setBorrowerName("No records found !");
+		loanMgmt.setLoanAmount(0.0);
+		loanMgmt.setLoanNumber(0L);
+		loanData.add(loanMgmt);
+		return loanData;
+	}
+	
+	public List<LoanManagement> filterLoanDataFallback(Optional<Long> number,Optional<String> borrower,
+			Optional<Double> amount){
+		logger.error("Fallback method executed for filterLoanData method");
+		List<LoanManagement> loanData = new ArrayList<>();
+		LoanManagement loanMgmt = new LoanManagement();
+		loanMgmt.setBorrowerName("No records found !");
+		loanMgmt.setLoanAmount(0.0);
+		loanMgmt.setLoanNumber(0L);
+		loanData.add(loanMgmt);
+		return loanData;
 	}
 
 }

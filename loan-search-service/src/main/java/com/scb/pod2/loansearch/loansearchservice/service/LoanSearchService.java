@@ -16,7 +16,6 @@ public class LoanSearchService {
 
 	public List<LoanManagement> retriveAllLoanMangement() {
 		return loanManagementDAO.findAll();
-
 	}
-
+	
 }

@@ -4,8 +4,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,7 +18,6 @@ import com.scb.pod2.loansearch.loansearchservice.service.LoanSearchService;
 @RestController
 public class LoanSearchController {
 
-	private Logger logger = LoggerFactory.getLogger(LoanSearchController.class);
 
 	@Autowired
 	private LoanSearchService service;
@@ -50,7 +47,7 @@ public class LoanSearchController {
 	 * 
 	 */
 
-	@GetMapping("/loandata/filter")
+	@GetMapping("/loan/data/filter")
 	public List<LoanManagement> filterLoanData(@RequestParam Optional<Long> number,
 			@RequestParam Optional<String> borrower, @RequestParam Optional<Double> amount) {
 
@@ -58,18 +55,20 @@ public class LoanSearchController {
 
 		if (loanData.isPresent() && number.isPresent()) {
 			loanData = Optional.ofNullable(loanData.get().stream()
-					.filter(obj -> (long) obj.getLoanNumber() == (long) number.get()).collect(Collectors.toList()));
+						.filter(obj -> (long) obj.getLoanNumber() == (long) number.get())
+						.collect(Collectors.toList()));
 		}
 
 		if (loanData.isPresent() && borrower.isPresent()) {
-			loanData = Optional.ofNullable(
-					loanData.get().stream().filter(obj -> obj.getBorrowerName().equalsIgnoreCase(borrower.get()))
-							.collect(Collectors.toList()));
+			loanData = Optional.ofNullable(loanData.get().stream()
+						.filter(obj -> obj.getBorrowerName().equalsIgnoreCase(borrower.get()))
+						.collect(Collectors.toList()));
 		}
 
 		if (loanData.isPresent() && amount.isPresent()) {
 			loanData = Optional.ofNullable(loanData.get().stream()
-					.filter(obj -> (double) obj.getLoanAmount() == (double) amount.get()).collect(Collectors.toList()));
+					.filter(obj -> (double) obj.getLoanAmount() == (double) amount.get())
+					.collect(Collectors.toList()));
 		}
 
 		if (!loanData.isPresent() || loanData.get().isEmpty()) {

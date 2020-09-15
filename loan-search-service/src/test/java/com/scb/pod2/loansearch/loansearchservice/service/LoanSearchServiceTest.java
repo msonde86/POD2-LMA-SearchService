@@ -29,14 +29,13 @@ public class LoanSearchServiceTest {
 
 	static {
 
-		expectedlistAll.add(new LoanManagement(1000l, "Thejas G M", 12000.0d));
-		expectedlistAll.add(new LoanManagement(1001l, "Mithila S", 150000.0d));
-		expectedlistAll.add(new LoanManagement(1002l, "Pushpa", 200000.0d));
-		expectedlistAll.add(new LoanManagement(1003l, "Bharat", 100000.0d));
-		expectedlistAll.add(new LoanManagement(1004l, "Vinoth", 100000.0d));
-
-		
-	}
+		expectedlistAll.add(new LoanManagement(1000l, 12000.0d, "Thejas G M"));
+		expectedlistAll.add(new LoanManagement(1001l, 150000.0d, "Mithila S"));
+		expectedlistAll.add(new LoanManagement(1002l, 200000.0d, "Pushpa"));
+		expectedlistAll.add(new LoanManagement(1003l, 100000.0d, "Bharat"));
+		expectedlistAll.add(new LoanManagement(1004l, 100000.0d, "Vinoth"));
+}
+	
 	@Test
 	public void retriveAllLoanMangementTest() {
 

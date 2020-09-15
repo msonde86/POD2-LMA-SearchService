@@ -32,7 +32,7 @@ public class LoanManagementResponseEntityExceptionHandler extends ResponseEntity
 	}
 
 	@ExceptionHandler(LoanManagementDataNotFound.class)
-	public final ResponseEntity<Object> handleEnrollmentNotFoundException(Exception ex, WebRequest request)
+	public final ResponseEntity<Object> handleLoanManagementDataNotFoundException(Exception ex, WebRequest request)
 			throws Exception {
 
 		ExceptionResponse exceptionResonse = new ExceptionResponse(new Date(), ex.getMessage(),
@@ -48,7 +48,6 @@ public class LoanManagementResponseEntityExceptionHandler extends ResponseEntity
 	public ResponseEntity<Object> handle(IllegalArgumentException e, final WebRequest request) {
 
 		LOGGER.error("bodyOfResponse", e);
-
 		return handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 
 	}

@@ -17,7 +17,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @RestController
 public class LoanManagementResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-	private static final Logger LOGGER = LoggerFactory.getLogger(LoanManagementResponseEntityExceptionHandler.class);
+	private static final Logger child_logger = LoggerFactory.getLogger(LoanManagementResponseEntityExceptionHandler.class);
 
 	@ExceptionHandler(Exception.class)
 	public final ResponseEntity<Object> handleAllException(Exception ex, WebRequest request) throws Exception {
@@ -25,7 +25,7 @@ public class LoanManagementResponseEntityExceptionHandler extends ResponseEntity
 		ExceptionResponse exceptionResonse = new ExceptionResponse(new Date(), ex.getMessage(),
 				"error exception response: Internal Server Error");
 
-		LOGGER.error("bodyOfResponse", ex);
+		child_logger.error("bodyOfResponse", ex);
 
 		return new ResponseEntity(exceptionResonse, HttpStatus.INTERNAL_SERVER_ERROR);
 
@@ -38,7 +38,7 @@ public class LoanManagementResponseEntityExceptionHandler extends ResponseEntity
 		ExceptionResponse exceptionResonse = new ExceptionResponse(new Date(), ex.getMessage(),
 				"Error Exception Response : No Search Results found for requested parameter");
 
-		LOGGER.error("bodyOfResponse", ex);
+		child_logger.error("bodyOfResponse", ex);
 
 		return new ResponseEntity(exceptionResonse, HttpStatus.NOT_FOUND);
 
@@ -47,7 +47,7 @@ public class LoanManagementResponseEntityExceptionHandler extends ResponseEntity
 	@ExceptionHandler({ IllegalArgumentException.class })
 	public ResponseEntity<Object> handle(IllegalArgumentException e, final WebRequest request) {
 
-		LOGGER.error("bodyOfResponse", e);
+		child_logger.error("bodyOfResponse", e);
 		return handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 
 	}

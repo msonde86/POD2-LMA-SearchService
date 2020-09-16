@@ -18,27 +18,27 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class LoanManagementResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
 	private static final Logger child_logger = LoggerFactory.getLogger(LoanManagementResponseEntityExceptionHandler.class);
+	private static final String BODY_OF_RESPONSE = "bodyOfResponse";
 
 	@ExceptionHandler(Exception.class)
-	public final ResponseEntity<Object> handleAllException(Exception ex, WebRequest request) throws Exception {
+	public final ResponseEntity<Object> handleAllException(Exception ex, WebRequest request){
 
 		ExceptionResponse exceptionResonse = new ExceptionResponse(new Date(), ex.getMessage(),
 				"error exception response: Internal Server Error");
 
-		child_logger.error("bodyOfResponse", ex);
+		child_logger.error(BODY_OF_RESPONSE, ex);
 
 		return new ResponseEntity(exceptionResonse, HttpStatus.INTERNAL_SERVER_ERROR);
 
 	}
 
 	@ExceptionHandler(LoanManagementDataNotFound.class)
-	public final ResponseEntity<Object> handleLoanManagementDataNotFoundException(Exception ex, WebRequest request)
-			throws Exception {
+	public final ResponseEntity<Object> handleLoanManagementDataNotFoundException(Exception ex, WebRequest request){
 
 		ExceptionResponse exceptionResonse = new ExceptionResponse(new Date(), ex.getMessage(),
 				"Error Exception Response : No Search Results found for requested parameter");
 
-		child_logger.error("bodyOfResponse", ex);
+		child_logger.error(BODY_OF_RESPONSE, ex);
 
 		return new ResponseEntity(exceptionResonse, HttpStatus.NOT_FOUND);
 
@@ -47,7 +47,7 @@ public class LoanManagementResponseEntityExceptionHandler extends ResponseEntity
 	@ExceptionHandler({ IllegalArgumentException.class })
 	public ResponseEntity<Object> handle(IllegalArgumentException e, final WebRequest request) {
 
-		child_logger.error("bodyOfResponse", e);
+		child_logger.error(BODY_OF_RESPONSE, e);
 		return handleExceptionInternal(e, e.getMessage(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 
 	}

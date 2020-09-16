@@ -9,7 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,7 +18,6 @@ import com.scb.pod2.loansearch.loansearchservice.service.LoanSearchService;
 
 @CrossOrigin
 @RestController
-@RequestMapping("/loansearch")
 public class LoanSearchController {
 
 	private Logger logger = LoggerFactory.getLogger(LoanSearchController.class);
@@ -39,6 +37,8 @@ public class LoanSearchController {
 		List<LoanManagement> userOptional = service.retriveAllLoanMangement();
 		return userOptional;
 	}
+
+
 
 	/**
 	 * filter the loan data based on the the parameter such as loan number, borrower

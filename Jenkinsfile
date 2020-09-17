@@ -5,7 +5,7 @@ pipeline {
     stage("Build") {
       steps {
         bat "mvn -version"
-        bat "mvn clean install"
+        bat "mvn -f loan-search-service/pom.xml clean install"
       }
     }
   }

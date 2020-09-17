@@ -3,9 +3,9 @@ package com.scb.pod2.loansearch.loansearchservice.exception;
 import java.util.Date;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @AllArgsConstructor
 public class ExceptionResponse {
 

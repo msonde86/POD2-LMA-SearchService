@@ -1,4 +1,5 @@
-package com.scb.pod2.loansearch.filter;
+
+package com.scb.pod2.loansearch.loansearchservice.filter;
 
 import javax.servlet.http.HttpServletRequest;
 

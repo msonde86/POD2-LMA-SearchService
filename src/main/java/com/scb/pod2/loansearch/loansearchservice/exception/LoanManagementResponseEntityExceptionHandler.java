@@ -28,7 +28,7 @@ public class LoanManagementResponseEntityExceptionHandler extends ResponseEntity
 
 		child_logger.error(BODY_OF_RESPONSE, ex);
 
-		return new ResponseEntity(exceptionResonse, HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<Object>(exceptionResonse, HttpStatus.INTERNAL_SERVER_ERROR);
 
 	}
 

@@ -7,10 +7,13 @@ import org.springframework.context.annotation.Bean;
 
 import com.scb.pod2.loansearch.loansearchservice.filter.ZuulPreFilter;
 
+import lombok.Generated;
+
 @SpringBootApplication
 @EnableDiscoveryClient
 public class LoanSearchServiceApplication {
 
+	@Generated
 	public static void main(String[] args) {
 		SpringApplication.run(LoanSearchServiceApplication.class, args);
 	}

@@ -37,13 +37,13 @@ public class LoanSearchControllerTest {
 
 	static {
 
-		expectedlistAll.add(new LoanManagement(1000l, "Thejas G M", 12000.0d));
-		expectedlistAll.add(new LoanManagement(1001l, "Mithila S", 150000.0d));
-		expectedlistAll.add(new LoanManagement(1002l, "Pushpa", 200000.0d));
-		expectedlistAll.add(new LoanManagement(1003l, "Bharat", 100000.0d));
-		expectedlistAll.add(new LoanManagement(1004l, "Vinoth", 100000.0d));
+		expectedlistAll.add(new LoanManagement(1000l, 12000.0d, "Thejas G M"));
+		expectedlistAll.add(new LoanManagement(1001l, 150000.0d, "Mithila S"));
+		expectedlistAll.add(new LoanManagement(1002l, 200000.0d, "Pushpa"));
+		expectedlistAll.add(new LoanManagement(1003l, 100000.0d, "Bharat"));
+		expectedlistAll.add(new LoanManagement(1004l, 100000.0d, "Vinoth"));
 
-		expectListFilter.add(new LoanManagement(1000l, "Thejas G M", 12000.0d));
+		expectListFilter.add(new LoanManagement(1000l, 12000.0d, "Thejas G M"));
 	}
 
 	@Test
@@ -82,7 +82,7 @@ public class LoanSearchControllerTest {
         when( loanSearchService.retriveAllLoanMangement()).
         thenReturn(expectListFilter);
 
-        RequestBuilder request=MockMvcRequestBuilders.get("/loandata/filter")
+        RequestBuilder request=MockMvcRequestBuilders.get("/loan/data/filter")
         				.param("number", "1000")
         				.param("borrower","thejas g m")
         				.param("amount","12000.0")
@@ -100,7 +100,7 @@ public class LoanSearchControllerTest {
 
 		when(loanSearchService.retriveAllLoanMangement())
 		.thenReturn(expectListFilter);
-		RequestBuilder request = MockMvcRequestBuilders.get("/loandata/filter")
+		RequestBuilder request = MockMvcRequestBuilders.get("/loan/data/filter")
 				.param("number", "1000")
 				.accept(MediaType.APPLICATION_JSON);
 		
@@ -118,7 +118,7 @@ public class LoanSearchControllerTest {
 		when(loanSearchService.retriveAllLoanMangement()).
 		thenReturn(expectListFilter);
 		
-		RequestBuilder request = MockMvcRequestBuilders.get("/loandata/filter")
+		RequestBuilder request = MockMvcRequestBuilders.get("/loan/data/filter")
 				.param("borrower", "thejas g m")
 				.accept(MediaType.APPLICATION_JSON);
 		mockMvc.perform(request)
@@ -134,7 +134,7 @@ public class LoanSearchControllerTest {
 
 		when(loanSearchService.retriveAllLoanMangement())
 		.thenReturn(expectListFilter);
-		RequestBuilder request = MockMvcRequestBuilders.get("/loandata/filter")
+		RequestBuilder request = MockMvcRequestBuilders.get("/loan/data/filter")
 				.param("amount","12000.0")
 				.accept(MediaType.APPLICATION_JSON);
 		
@@ -151,7 +151,7 @@ public class LoanSearchControllerTest {
 
 		when(loanSearchService.retriveAllLoanMangement())
 		.thenReturn(expectListFilter);
-		RequestBuilder request = MockMvcRequestBuilders.get("/loandata/filter")
+		RequestBuilder request = MockMvcRequestBuilders.get("/loan/data/filter")
 				.param("number", "1000")
 				.param("borrower", "thejas g m")
 				.accept(MediaType.APPLICATION_JSON);
@@ -168,7 +168,7 @@ public class LoanSearchControllerTest {
 
 		when(loanSearchService.retriveAllLoanMangement())
 		.thenReturn(expectListFilter);
-		RequestBuilder request = MockMvcRequestBuilders.get("/loandata/filter")
+		RequestBuilder request = MockMvcRequestBuilders.get("/loan/data/filter")
 				.param("number", "1000")
 				.param("amount","12000.0")
 				.accept(MediaType.APPLICATION_JSON);
@@ -185,23 +185,23 @@ public class LoanSearchControllerTest {
 
 		when(loanSearchService.retriveAllLoanMangement())
 		.thenReturn(expectListFilter);
-		RequestBuilder request = MockMvcRequestBuilders.get("/loandata/filter")
+		RequestBuilder request = MockMvcRequestBuilders.get("/loan/data/filter")
 				.param("amount","12000.0")
 				.param("borrower", "thejas g m")
 				.accept(MediaType.APPLICATION_JSON);
-		//MvcResult result = mockMvc.perform(request)
 		 mockMvc.perform(request)
 				.andExpect(status().isOk())
 				.andExpect(content().json("[{\"loanNumber\":1000,\"loanAmount\":12000.0,\"borrowerName\":\"Thejas G M\"}]"))
 				.andReturn();
 
 	}
+
 	@Test
 	public void filterLoanData_NoDataFound() throws Exception {
 
 		when(loanSearchService.retriveAllLoanMangement())
 		.thenReturn(expectListFilter);
-		RequestBuilder request = MockMvcRequestBuilders.get("/loandata/filter")
+		RequestBuilder request = MockMvcRequestBuilders.get("/loan/data/filter")
 				.param("amount","13000.0")
 				.param("borrower", "thejas g m")
 				.accept(MediaType.APPLICATION_JSON);
